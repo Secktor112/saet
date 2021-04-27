@@ -5,9 +5,20 @@
 {% endblock %}
 
 {% block body %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <form method="post" class="container mt-5">
-        <input type="text" name="title" id="login" class="form_control" placeholder="Введите Логин"><br>
-        <input type="password" name="title" id="psw" class="form_control" placeholder="Введите Пароль"><br>
+        <input type="text" name="login" id="login" class="form_control" placeholder="Введите Логин"><br>
+        <input type="password" name="psw" id="psw" class="form_control" placeholder="Введите Пароль"><br>
         <input type="submit" class="btn btn-success" value="Войти"><br>
         <a href="/register" type="submit" class="btn btn-alert">Нет аккаунта? Зарегистрироваться</a>
 

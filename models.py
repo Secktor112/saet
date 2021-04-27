@@ -1,4 +1,6 @@
-from app import db
+from flask_login import UserMixin
+
+from app import db, manager
 from datetime import datetime
 
 
@@ -38,24 +40,35 @@ class Article(db.Model):
         self.commit()
 
 
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    email = db.Column(db.String(50), unique=True)
-    psw = db.Column(db.String(500), nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Users %r>' % self.id
-
-
+# class Users(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(50), unique=True)
+#     email = db.Column(db.String(50), unique=True)
+#     psw = db.Column(db.String(500), nullable=False)
+#     date = db.Column(db.DateTime, default=datetime.utcnow)
+#
+#     def __repr__(self):
+#         return '<Users %r>' % self.id
+#
+#
 class Profiles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), unique=True)
     age = db.Column(db.Integer)
-    city = db.Column(db.String(100))
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return '<Profiles %r>' % self.id
+
+
+class User (db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(128), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+
+
+@manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
