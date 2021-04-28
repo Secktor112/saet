@@ -57,6 +57,8 @@ def register():
             flash('Please, fill all fields!')
         elif password != password2:
             flash('Passwords are not equal!')
+        elif not (password or password2):
+            flash('Please, fill all fields!')
         else:
             hash_pwd = generate_password_hash(password)
             new_user = User(login=login, password=hash_pwd)

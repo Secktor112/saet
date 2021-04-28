@@ -5,6 +5,7 @@ body {
   background-size: cover;
   -o-background-size: cover;
   backdrop-filter: blur(5px);
+  min-height:100vh
 }
 
 .header {
@@ -187,3 +188,10 @@ body {
   }
 }
 
+.forinputs {
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+.colortext {
+    color: #999; /* Цвет текста */
+   }
