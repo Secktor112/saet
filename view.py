@@ -14,6 +14,16 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/catalog')
+def catalog():
+    return render_template("catalog.html")
+
+
+@app.route('/service')
+def service():
+    return render_template("service.html")
+
+
 @app.route('/auth', methods=['POST', 'GET'])
 def auth():
     login = request.form.get('login')
@@ -42,9 +52,8 @@ def register():
     password = request.form.get('psw')
     password2 = request.form.get('psw2')
 
-
     if request.method == 'POST':
-        if not (login or password or password2 or age or name or email):
+        if not (login or password or password2):
             flash('Please, fill all fields!')
         elif password != password2:
             flash('Passwords are not equal!')
