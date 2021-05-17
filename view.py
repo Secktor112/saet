@@ -7,21 +7,29 @@ from flask import redirect
 from flask import request
 from app import app
 from app import db
+from flask import session
+from utility import get_template, get_role
 
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return get_template("index.html")
 
 
 @app.route('/catalog')
 def catalog():
-    return render_template("catalog.html")
+    return get_template("catalog.html")
+
+
+@app.route('/instrument')
+def catalog_route():
+    type = request.args.get("type")
+    return get_template("instrument.html", type=type)
 
 
 @app.route('/service')
 def service():
-    return render_template("service.html")
+    return get_template("service.html")
 
 
 @app.route('/auth', methods=['POST', 'GET'])
@@ -34,10 +42,11 @@ def auth():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-
+            session['userid'] = user.id
             next_page = request.args.get('next')
-
-            return redirect(next_page)
+            if next_page:
+                return redirect(next_page)
+            return redirect('/')
         else:
             flash('Login or password is not correct')
     else:
@@ -46,56 +55,87 @@ def auth():
     return render_template('auth.html')
 
 
+@app.route('/get')
+def get():
+    print(session['userid'])
+    return ''
+
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     login = request.form.get('login')
     password = request.form.get('psw')
     password2 = request.form.get('psw2')
+    name = request.form.get('name')
+    email = request.form.get('email')
+
+    # print(name.encode())
 
     if request.method == 'POST':
-        if not (login or password or password2):
+        if not (login or password or password2 or name or email):
             flash('Please, fill all fields!')
         elif password != password2:
             flash('Passwords are not equal!')
         elif not (password or password2):
             flash('Please, fill all fields!')
+        elif not name or not email:
+            flash('Please, fill all fields!')
         else:
             hash_pwd = generate_password_hash(password)
-            new_user = User(login=login, password=hash_pwd)
-            db.session.add(new_user)
-            db.session.commit()
 
-            return redirect('/auth')
+            try:
+                new_user = User(
+                    login=login,
+                    password=hash_pwd,
+                    name=name,
+                    email=email
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect('/auth')
+            except:
+                flash('username or email is incorrect')
+            # try:
+            #     new_profile =
+
+            return redirect('/register')
 
     return render_template('register.html')
 
 
 @app.route('/logout', methods=['POST', 'GET'])
-@login_required
 def logout():
     logout_user()
+    session['userid'] = None
     return render_template("index.html")
 
 
 @app.route('/about')
 def about():
-    return render_template("about.html")
+    return get_template("about.html")
 
 
 @app.route('/posts')
 def posts():
+    if get_role(session['userid']) == 1:
+        is_admin = True
+    else:
+        is_admin = False
     articles = Article.query.order_by(Article.date.desc()).all()
-    return render_template("posts.html", articles=articles)
+    return get_template("posts.html", articles=articles, admin=is_admin)
 
 
 @app.route('/posts/<int:id>')
 def posts_detail(id):
     article = Article.query.get(id)
-    return render_template("post_detail.html", article=article)
+    return get_template("post_detail.html", article=article)
 
 
 @app.route('/posts/<int:id>/del')
 def posts_delete(id):
+    if get_role(session['userid']) != 1:
+        return redirect('/')
+
     article = Article.query.get_or_404(id)
     article.delete()
     if article.success:
@@ -105,6 +145,9 @@ def posts_delete(id):
 
 @app.route('/posts/<int:id>/update', methods=['POST', 'GET'])
 def post_update(id):
+    if get_role(session['userid']) != 1:
+        return redirect('/')
+
     article = Article.query.get(id)
     if request.method == "POST":
         article.update(
@@ -118,12 +161,15 @@ def post_update(id):
         return "При редактировании статьи произошла ошибка"
 
     else:
-        return render_template("post-update.html", article=article)
+        return get_template("post-update.html", article=article)
 
 
 @app.route('/create-article', methods=['POST', 'GET'])
 @login_required
 def create_article():
+    if get_role(session['userid']) != 1:
+        return redirect('/')
+
     if request.method == "POST":
         article = Article(
             title=request.form['title'],
@@ -138,12 +184,23 @@ def create_article():
         return "При добавлении статьи произошла ошибка"
 
     else:
-        return render_template("create-article.html")
+        return get_template("create-article.html")
+
+
+@app.route('/profile', methods=['GET'])
+@login_required
+def profile():
+    return get_template("profile.html")
+
+
+@app.route('/add_inst', methods=['POST', 'GET'])
+@login_required
+def add_inst():
+    return get_template("add_inst.html")
 
 
 @app.after_request
 def redirect_to_signin(response):
     if response.status_code == 401:
         return redirect(url_for('auth') + '?next=' + request.url)
-
     return response

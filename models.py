@@ -51,22 +51,35 @@ class Article(db.Model):
 #         return '<Users %r>' % self.id
 #
 #
-class Profiles(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), unique=True)
-    age = db.Column(db.Integer)
-
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<Profiles %r>' % self.id
+# class Profiles(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(50), nullable=False)
+#     email = db.Column(db.String(50), unique=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#
+#     def __repr__(self):
+#         return '<Profiles %r>' % self.id
 
 
 class User (db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), unique=True)
+    role = db.Column(db.Integer, default=0)
+
+
+class Instruments (db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    type = db.Column(db.String(128), nullable=False)
+    family = db.Column(db.String(128), nullable=False)
+    photo = db.Column(db.String(300))
+    price = db.Column(db.String(50), nullable=False)
+    options = db.Column(db.String(128), nullable=False, default='base')
+    vendor = db.Column(db.String(300), nullable=False, default='noname')
+    disc = db.Column(db.Text)
 
 
 @manager.user_loader

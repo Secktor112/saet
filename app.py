@@ -6,7 +6,7 @@ from flask_login import LoginManager
 
 
 app = Flask(__name__)
-app.secret_key = 'secret aga'
+
 app.config.from_object(Configuration)
 
 db = SQLAlchemy(app)

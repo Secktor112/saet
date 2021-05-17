@@ -24,7 +24,12 @@
       <a class="me-3 py-2 text-white text-decoration-none" href="/about">Про нас</a>
       <a class="me-3 py-2 text-white text-decoration-none" href="/posts">Посты</a>
       <a class="me-3 btn btn-warning text-decoration-none" href="/create-article">Создать</a>
+        {% if not prof %}
       <a class="me-3 btn btn-warning text-decoration-none" href="/auth">Войти</a>
+            {% else %}
+        <a class="me-3 btn btn-warning text-decoration-none" href="/profile">Профиль</a>
+        {% endif %}
+      <a class="me-3 btn btn-warning text-decoration-none" href="/logout">Выйти</a>
     </nav>
   </header>
  </div>
