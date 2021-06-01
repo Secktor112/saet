@@ -73,13 +73,34 @@ class User (db.Model, UserMixin):
 class Instruments (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
-    type = db.Column(db.String(128), nullable=False)
-    family = db.Column(db.String(128), nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey('type.id'))
+    family_id = db.Column(db.Integer, db.ForeignKey('family.id'))
     photo = db.Column(db.String(300))
     price = db.Column(db.String(50), nullable=False)
     options = db.Column(db.String(128), nullable=False, default='base')
     vendor = db.Column(db.String(300), nullable=False, default='noname')
     disc = db.Column(db.Text)
+
+
+class Type (db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    name_ru = db.Column(db.String(128), nullable=False)
+
+    def __repr__(self):
+        return '<Type %r>' % self.id
+
+
+class Family (db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    name_ru = db.Column(db.String(128), nullable=False)
+
+
+class Cart (db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    inst_id = db.Column(db.Integer, db.ForeignKey('instruments.id'))
 
 
 @manager.user_loader

@@ -1,7 +1,7 @@
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from models import Article, User, Instruments
+from models import Article, User, Instruments, Type, Family
 from flask import render_template, flash, url_for
 from flask import redirect
 from flask import request
@@ -23,8 +23,17 @@ def catalog():
 
 @app.route('/instrument')
 def catalog_route():
-    type = request.args.get("type")
-    return get_template("instrument.html", type=type)
+    type_id = request.args.get("type_id")
+    types_id = Instruments.query.filter_by(type_id=type_id).all()
+    print(types_id)
+
+    return get_template("instrument.html", types_id=types_id)
+
+
+@app.route('/instrument/<int:id>')
+def inst_detail(id):
+    inst = Instruments.query.filter_by(id=id).first()
+    return get_template("inst_detail.html", inst=inst)
 
 
 @app.route('/service')
@@ -196,6 +205,10 @@ def profile():
 @app.route('/add_inst', methods=['POST', 'GET'])
 @login_required
 def add_inst():
+    types = Type.query.all()
+
+    families = Family.query.all()
+
     name = request.form.get('name')
     type = request.form.get('type')
     family = request.form.get('family')
@@ -205,29 +218,16 @@ def add_inst():
     vendor = request.form.get('vendor')
     disc = request.form.get('disc')
 
-    if type == 'Гитара':
-        inst_type = 'GUITAR'
+    sel_type = Type.query.filter_by(name_ru=type).first()
+    sel_family = Family.query.filter_by(name_ru=family).first()
 
-    elif type == 'Укулеле':
-        inst_type = Inst_type.UKULELE
 
-    elif type == 'Фортепиано':
-        inst_type = Inst_type.PIANO
-
-    elif type == 'Скрипка':
-        inst_type = Inst_type.VIOLIN
-
-    elif family == 'Скрипка':
-        family = Inst_type.VIOLIN
-
-    elif family == 'Струнные':
-        family = 'STRINGS'
 
     try:
         new_inst = Instruments(
             name=name,
-            type=inst_type,
-            family=family,
+            type_id=sel_type.id,
+            family_id=sel_family.id,
             photo=photo,
             price=price,
             options=options,
@@ -242,7 +242,7 @@ def add_inst():
     # try:
     #     new_profile =
 
-    return get_template("add_inst.html")
+    return get_template("add_inst.html", types=types, families=families)
 
 
 @app.after_request
