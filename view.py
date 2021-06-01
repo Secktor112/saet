@@ -1,7 +1,7 @@
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from models import Article, User, Instruments, Type, Family
+from models import Article, User, Instruments, Type, Family, Cart
 from flask import render_template, flash, url_for
 from flask import redirect
 from flask import request
@@ -25,7 +25,6 @@ def catalog():
 def catalog_route():
     type_id = request.args.get("type_id")
     types_id = Instruments.query.filter_by(type_id=type_id).all()
-    print(types_id)
 
     return get_template("instrument.html", types_id=types_id)
 
@@ -243,6 +242,32 @@ def add_inst():
     #     new_profile =
 
     return get_template("add_inst.html", types=types, families=families)
+
+
+@app.route('/cart', methods=['GET'])
+@login_required
+def cart():
+    carts = Cart.query.filter_by(user_id=session['userid']).all()
+    for cart in carts:
+        cart.inst = Instruments.query.filter_by(id=cart.inst_id).first()
+
+    return get_template("cart.html", carts=carts)
+
+
+@app.route('/add_cart/<int:id>', methods=['GET'])
+@login_required
+def add_cart(id):
+    try:
+        new_cart = Cart(
+            user_id = session['userid'],
+            inst_id = id
+        )
+        db.session.add(new_cart)
+        db.session.commit()
+        return redirect('/cart')
+    except:
+        print('Не удалось')
+
 
 
 @app.after_request

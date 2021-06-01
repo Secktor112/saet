@@ -5,7 +5,7 @@ from enum import Enum
 
 
 def get_template(template, **kwargs):
-    if session['userid']:
+    if session.get('userid', None):
         return render_template(template, prof=True, **kwargs)
     return render_template(template, prof=False, **kwargs)
 
