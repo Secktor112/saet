@@ -29,6 +29,14 @@ def catalog_route():
     return get_template("instrument.html", types_id=types_id)
 
 
+@app.route('/instrument_family')
+def catalog_route_fam():
+    family_id = request.args.get("family_id")
+    families_id = Instruments.query.filter_by(family_id=family_id).all()
+
+    return get_template("instrument_family.html", families_id=families_id)
+
+
 @app.route('/instrument/<int:id>')
 def inst_detail(id):
     inst = Instruments.query.filter_by(id=id).first()
@@ -135,8 +143,12 @@ def posts():
 
 @app.route('/posts/<int:id>')
 def posts_detail(id):
+    if get_role(session['userid']) == 1:
+        is_admin = True
+    else:
+        is_admin = False
     article = Article.query.get(id)
-    return get_template("post_detail.html", article=article)
+    return get_template("post_detail.html", article=article, admin=is_admin)
 
 
 @app.route('/posts/<int:id>/del')
@@ -252,6 +264,16 @@ def cart():
         cart.inst = Instruments.query.filter_by(id=cart.inst_id).first()
 
     return get_template("cart.html", carts=carts)
+
+
+@app.route('/cart/<int:id>/del')
+@login_required
+def cart_delete(id):
+    cart = Cart.query.get_or_404(id)
+    cart.delete()
+    if cart.success:
+        return redirect('/cart')
+    return "При удалении статьи произошла ошибка"
 
 
 @app.route('/add_cart/<int:id>', methods=['GET'])

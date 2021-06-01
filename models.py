@@ -102,6 +102,22 @@ class Cart (db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     inst_id = db.Column(db.Integer, db.ForeignKey('instruments.id'))
 
+    def __repr__(self):
+        return '<Cart %r>' % self.id
+
+    def commit(self):
+        try:
+            db.session.commit()
+            self.success = True
+            return True
+        except:
+            self.success = False
+            return False
+
+    def delete(self):
+        db.session.delete(self)
+        self.commit()
+
 
 @manager.user_loader
 def load_user(user_id):

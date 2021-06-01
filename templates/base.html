@@ -23,13 +23,15 @@
       <a class="me-3 py-2 text-white text-decoration-none" href="/service">Услуги</a>
       <a class="me-3 py-2 text-white text-decoration-none" href="/about">Про нас</a>
       <a class="me-3 py-2 text-white text-decoration-none" href="/posts">Новости</a>
-      <a class="me-3 btn btn-warning text-decoration-none" href="/create-article">Создать</a>
         {% if not prof %}
       <a class="me-3 btn btn-warning text-decoration-none" href="/auth">Войти</a>
             {% else %}
         <a class="me-3 btn btn-warning text-decoration-none" href="/profile">Профиль</a>
         {% endif %}
+        {% if prof %}
+      <a class="me-3 btn btn-warning text-decoration-none" href="/cart">Корзина</a>
       <a class="me-3 btn btn-warning text-decoration-none" href="/logout">Выйти</a>
+        {% endif %}
     </nav>
   </header>
  </div>
@@ -53,12 +55,13 @@
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5 class="text-white">Resources</h5>
+        <h5 class="text-white">Инструменты</h5>
         <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/instrument_family?family_id=1">Струнные</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/instrument_family?family_id=2">Струнно-смычковые</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/instrument_family?family_id=3">Клавишные</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/instrument_family?family_id=4">Ударные</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/instrument_family?family_id=5">Духовые</a></li>
         </ul>
       </div>
       <div class="col-6 col-md">
