@@ -1,14 +1,14 @@
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from models import Article, User
+from models import Article, User, Instruments
 from flask import render_template, flash, url_for
 from flask import redirect
 from flask import request
 from app import app
 from app import db
 from flask import session
-from utility import get_template, get_role
+from utility import get_template, get_role, Inst_type, Inst_family
 
 
 @app.route('/')
@@ -196,6 +196,52 @@ def profile():
 @app.route('/add_inst', methods=['POST', 'GET'])
 @login_required
 def add_inst():
+    name = request.form.get('name')
+    type = request.form.get('type')
+    family = request.form.get('family')
+    photo = request.form.get('photo')
+    price = request.form.get('price')
+    options = request.form.get('options')
+    vendor = request.form.get('vendor')
+    disc = request.form.get('disc')
+
+    if type == 'Гитара':
+        inst_type = 'GUITAR'
+
+    elif type == 'Укулеле':
+        inst_type = Inst_type.UKULELE
+
+    elif type == 'Фортепиано':
+        inst_type = Inst_type.PIANO
+
+    elif type == 'Скрипка':
+        inst_type = Inst_type.VIOLIN
+
+    elif family == 'Скрипка':
+        family = Inst_type.VIOLIN
+
+    elif family == 'Струнные':
+        family = 'STRINGS'
+
+    try:
+        new_inst = Instruments(
+            name=name,
+            type=inst_type,
+            family=family,
+            photo=photo,
+            price=price,
+            options=options,
+            vendor=vendor,
+            disc=disc
+        )
+        db.session.add(new_inst)
+        db.session.commit()
+        return redirect('/add_inst')
+    except Exception as e:
+        print(e)
+    # try:
+    #     new_profile =
+
     return get_template("add_inst.html")
 
 
