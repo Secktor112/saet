@@ -216,6 +216,9 @@ def profile():
 @app.route('/add_inst', methods=['POST', 'GET'])
 @login_required
 def add_inst():
+    if get_role(session['userid']) != 1:
+        return redirect('/')
+
     types = Type.query.all()
 
     families = Family.query.all()
@@ -231,8 +234,6 @@ def add_inst():
 
     sel_type = Type.query.filter_by(name_ru=type).first()
     sel_family = Family.query.filter_by(name_ru=family).first()
-
-
 
     try:
         new_inst = Instruments(
@@ -250,8 +251,6 @@ def add_inst():
         return redirect('/add_inst')
     except Exception as e:
         print(e)
-    # try:
-    #     new_profile =
 
     return get_template("add_inst.html", types=types, families=families)
 

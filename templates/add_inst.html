@@ -30,12 +30,12 @@
             <input type="text" name="price" id="price" class="form_control forinputs colortext" placeholder="Стоимость"><br>
             <select type="text" name="options" id="options" class="form_control forinputs colortext" placeholder="Комплектация">
                 <option selected="selected">Комплектация</option>
-                <option>Base</option>
-                <option>Extend</option>
+                <option class="alert text-white">Base</option>
+                <option class="alert text-white">Extend</option>
             </select>
             <br>
             <input type="text" name="vendor" id="vendor" class="form_control forinputs colortext" placeholder="Производитель"><br>
-            <input type="text" name="disc" id="disc" class="form_control forinputs colortext" placeholder="Описание"><br>
+            <textarea type="text" name="disc" id="disc" class="forinputs fortextarea colortext" placeholder="Описание"></textarea><br>
             <input type="submit" class="btn btn-success" value="Добавить"><br>
     </form>
 {% endblock %}

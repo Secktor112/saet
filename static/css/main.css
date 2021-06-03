@@ -195,3 +195,8 @@ body {
 .colortext {
     color: #999; /* Цвет текста */
    }
+
+.fortextarea {
+    display: block;
+    width: 100%;
+}
