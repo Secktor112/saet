@@ -200,3 +200,13 @@ body {
     display: block;
     width: 100%;
 }
+
+.fordiv {
+	background: rgba(0, 0, 0, 0.7); /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 5px; /* Поля вокруг текста */
+   }
+
+.fordiv1 {
+	border-radius: 20px;
+   }

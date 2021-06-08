@@ -76,7 +76,7 @@ class Instruments (db.Model):
     type_id = db.Column(db.Integer, db.ForeignKey('type.id'))
     family_id = db.Column(db.Integer, db.ForeignKey('family.id'))
     photo = db.Column(db.String(300))
-    price = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Numeric(7, 2), nullable=False)
     options = db.Column(db.String(128), nullable=False, default='base')
     vendor = db.Column(db.String(300), nullable=False, default='noname')
     disc = db.Column(db.Text)

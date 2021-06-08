@@ -5,7 +5,6 @@ from config import Configuration
 from flask_login import LoginManager
 
 
-
 app = Flask(__name__)
 
 app.config.from_object(Configuration)

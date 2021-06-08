@@ -132,6 +132,7 @@ def about():
 
 
 @app.route('/posts')
+@login_required
 def posts():
     if get_role(session['userid']) == 1:
         is_admin = True
