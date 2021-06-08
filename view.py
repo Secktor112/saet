@@ -9,6 +9,7 @@ from app import app
 from app import db
 from flask import session
 from utility import get_template, get_role, Inst_type, Inst_family
+from sqlalchemy import func
 
 
 @app.route('/')
@@ -260,10 +261,14 @@ def add_inst():
 @login_required
 def cart():
     carts = Cart.query.filter_by(user_id=session['userid']).all()
-    for cart in carts:
-        cart.inst = Instruments.query.filter_by(id=cart.inst_id).first()
+    price_sum = 0
 
-    return get_template("cart.html", carts=carts)
+    for cart in carts:
+        current_inst = Instruments.query.filter_by(id=cart.inst_id).first()
+        cart.inst = current_inst
+        price_sum += float(current_inst.price)
+
+    return get_template("cart.html", carts=carts, price_sum=price_sum)
 
 
 @app.route('/cart/<int:id>/del')

@@ -27,6 +27,7 @@
                     </div>
                 {% endfor %}
         </div>
+        {% if carts %}
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -34,7 +35,7 @@
                         <div class="col-md-8">
                         </div>
                         <div class="col-md-2">
-
+                            {{ price_sum }} руб.
                         </div>
                         <div class="col-md-2">
                             <p><a class="btn btn-warning" href="#">Купить</a></p>
@@ -43,5 +44,10 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div style="min-height: 20em">
+        <h1 class="text-white">Корзина пуста</h1>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
