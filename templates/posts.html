@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Все статьи на сайте
+Новости
 {% endblock %}
 
 {% block body %}
+<h1 align="center" class="h2 fw-normal text-white">Новостной блок</h1>
 <div class="container mt-5">
+
     {% if admin %}
           <a class="me-3 btn btn-warning text-decoration-none" href="/create-article">Создать</a>
     {% endif %}
@@ -21,7 +23,7 @@
         </div>
         {% endfor %}
     {% else %}
-    <p>У нас ещё нет статей на сайте</p>
+    <p class="text-white">Новостей на данный момент нет</p>
     {% endif %}
 </div>
 {% endblock %}
