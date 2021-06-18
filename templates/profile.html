@@ -5,5 +5,21 @@
 {% endblock %}
 
 {% block body %}
+<div class="container fordiv fordiv1">
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading text-white"> {{ profiles.name }} <br><br><span class="text-white">Логин пользователя: {{ profiles.login }}</span></h2>
+        <p class="lead text-white"><br> Электронный адресс пользователя: {{ profiles.email }}</p>
+      </div>
+      <div class="col-md-5 order-md-1">
 
+        <svg class="fordiv1 bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text><image href="{{ profiles.image }}" height="100%" width="100%"/></svg>
+
+
+
+
+
+      </div>
+    </div>
+</div>
 {% endblock %}

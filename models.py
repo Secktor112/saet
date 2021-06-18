@@ -68,6 +68,7 @@ class User (db.Model, UserMixin):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True)
     role = db.Column(db.Integer, default=0)
+    image = db.Column(db.String(256), default='static/css/images/2.png')
 
 
 class Instruments (db.Model):

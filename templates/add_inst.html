@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block body %}
-<form align="center" method="post" class="container mt-5">
+<form align="center" method="post" class="container mt-5 fordiv fordiv1">
             <h1 align="center" class="h4 mb-3 fw-normal please text-white">Добавление инструмента</h1>
-            <input type="text" name="name" id="name" class="form_control forinputs colortext" placeholder="Введите Название Инструмента"><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите название инструмента:</label>
+            <input type="text" name="name" id="name" class="form_control forinputs colortext" placeholder="Введите Название Инструмента"><br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Выберите тип инструмента</label>
             <select type="text" name="type" id="type" class="form_control forinputs colortext" placeholder="Тип инструмента">
                 <option selected="selected">Тип инструмента</option>
                 {% for el in types %}
@@ -16,7 +18,8 @@
                     </option>
                 {% endfor %}
             </select>
-            <br>
+            <br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Выберите семейство инструмента</label>
             <select type="text" name="family" id="family" class="form_control forinputs colortext" placeholder="Семейство">
                 <option selected="selected">Семейство</option>
                 {% for el in families %}
@@ -25,17 +28,22 @@
                     </option>
                 {% endfor %}
             </select>
-            <br>
+            <br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите ссылку на фото инструмента</label>
             <input type="text" name="photo" id="photo" class="form_control forinputs colortext" placeholder="Ссылка на фото"><br>
-            <input type="text" name="price" id="price" class="form_control forinputs colortext" placeholder="Стоимость"><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите стоимость инструмента</label>
+            <input type="text" name="price" id="price" class="form_control forinputs colortext" placeholder="Стоимость"><br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Выберите комплектацию инструмента</label>
             <select type="text" name="options" id="options" class="form_control forinputs colortext" placeholder="Комплектация">
                 <option selected="selected">Комплектация</option>
                 <option class="alert text-white">Base</option>
                 <option class="alert text-white">Extend</option>
             </select>
-            <br>
-            <input type="text" name="vendor" id="vendor" class="form_control forinputs colortext" placeholder="Производитель"><br>
+            <br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите производителя инструмента</label>
+            <input type="text" name="vendor" id="vendor" class="form_control forinputs colortext" placeholder="Производитель"><br><br>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите описание инструмента</label>
             <textarea type="text" name="disc" id="disc" class="forinputs fortextarea colortext" placeholder="Описание"></textarea><br>
-            <input type="submit" class="btn btn-success" value="Добавить"><br>
+            <input type="submit" class="btn btn-success" value="Добавить"><br><br>
     </form>
 {% endblock %}

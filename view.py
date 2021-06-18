@@ -53,21 +53,21 @@ def service():
 def auth():
     login = request.form.get('login')
     password = request.form.get('psw')
+    if request.method == 'POST':
+        if login and password:
+            user = User.query.filter_by(login=login).first()
 
-    if login and password:
-        user = User.query.filter_by(login=login).first()
-
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            session['userid'] = user.id
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)
-            return redirect('/')
+            if user and check_password_hash(user.password, password):
+                login_user(user)
+                session['userid'] = user.id
+                next_page = request.args.get('next')
+                if next_page:
+                    return redirect(next_page)
+                return redirect('/')
+            else:
+                flash('Логин или пароль введены неверно')
         else:
-            flash('Login or password is not correct')
-    else:
-        flash('Please fill login and password fields')
+            flash('Пожалуйста заполните все поля!')
 
     return render_template('auth.html')
 
@@ -90,13 +90,13 @@ def register():
 
     if request.method == 'POST':
         if not (login or password or password2 or name or email):
-            flash('Please, fill all fields!')
+            flash('Пожалуйста, заполните все поля!')
         elif password != password2:
-            flash('Passwords are not equal!')
+            flash('Пароль не совпадают')
         elif not (password or password2):
-            flash('Please, fill all fields!')
+            flash('Пожалуйста, заполните все поля!')
         elif not name or not email:
-            flash('Please, fill all fields!')
+            flash('Пожалуйста, заполните все поля!')
         else:
             hash_pwd = generate_password_hash(password)
 
@@ -212,7 +212,8 @@ def create_article():
 @app.route('/profile', methods=['GET'])
 @login_required
 def profile():
-    return get_template("profile.html")
+    profiles = User.query.filter_by(id=session['userid']).first()
+    return get_template("profile.html", profiles=profiles)
 
 
 @app.route('/add_inst', methods=['POST', 'GET'])
