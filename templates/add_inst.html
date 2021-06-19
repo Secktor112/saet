@@ -7,6 +7,8 @@
 {% block body %}
 <form align="center" method="post" class="container mt-5 fordiv fordiv1">
             <h1 align="center" class="h4 mb-3 fw-normal please text-white">Добавление инструмента</h1>
+            <label align="center" class=" mb-3 fw-normal please text-white">Введите производителя инструмента</label>
+            <input type="text" name="vendor" id="vendor" class="form_control forinputs colortext" placeholder="Производитель"><br><br>
             <label align="center" class=" mb-3 fw-normal please text-white">Введите название инструмента:</label>
             <input type="text" name="name" id="name" class="form_control forinputs colortext" placeholder="Введите Название Инструмента"><br><br>
             <label align="center" class=" mb-3 fw-normal please text-white">Выберите тип инструмента</label>
@@ -40,8 +42,7 @@
                 <option class="alert text-white">Extend</option>
             </select>
             <br><br>
-            <label align="center" class=" mb-3 fw-normal please text-white">Введите производителя инструмента</label>
-            <input type="text" name="vendor" id="vendor" class="form_control forinputs colortext" placeholder="Производитель"><br><br>
+
             <label align="center" class=" mb-3 fw-normal please text-white">Введите описание инструмента</label>
             <textarea type="text" name="disc" id="disc" class="forinputs fortextarea colortext" placeholder="Описание"></textarea><br>
             <input type="submit" class="btn btn-success" value="Добавить"><br><br>
